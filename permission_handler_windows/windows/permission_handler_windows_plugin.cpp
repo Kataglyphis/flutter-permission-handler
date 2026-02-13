@@ -87,8 +87,9 @@ void PermissionHandlerWindowsPlugin::RegisterWithRegistrar(
 }
 
 PermissionHandlerWindowsPlugin::PermissionHandlerWindowsPlugin(){
+  // FIX: Removed [this] capture as it was unused and caused warnings in clang-cl
   m_positionChangedRevoker = geolocator.PositionChanged(winrt::auto_revoke,
-    [this](Geolocator const& geolocator, PositionChangedEventArgs e)
+    [](Geolocator const& geolocator, PositionChangedEventArgs e)
     {
     });
 }
@@ -139,7 +140,10 @@ void PermissionHandlerWindowsPlugin::HandleMethodCall(
       requestResults.insert({EncodableValue(permissions[i]), EncodableValue((int)permissionStatus)});
     }
 
-    result->Success(requestResults);
+    // FIX: Explicitly wrap the map in EncodableValue for clang-cl compatibility.
+    // This is also valid for MSVC.
+    result->Success(EncodableValue(requestResults));
+
   } else if (methodName.compare("shouldShowRequestPermissionRationale") == 0
           || methodName.compare("openAppSettings")) {
     result->Success(EncodableValue(false));

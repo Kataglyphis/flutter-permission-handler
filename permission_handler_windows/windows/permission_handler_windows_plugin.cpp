@@ -87,9 +87,9 @@ void PermissionHandlerWindowsPlugin::RegisterWithRegistrar(
 }
 
 PermissionHandlerWindowsPlugin::PermissionHandlerWindowsPlugin(){
-  // FIX: Removed [this] capture as it was unused and caused warnings in clang-cl
+
   m_positionChangedRevoker = geolocator.PositionChanged(winrt::auto_revoke,
-    [](Geolocator const& geolocator, PositionChangedEventArgs e)
+    [this](Geolocator const& geolocator, PositionChangedEventArgs e)
     {
     });
 }

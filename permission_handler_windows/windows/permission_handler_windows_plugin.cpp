@@ -87,7 +87,6 @@ void PermissionHandlerWindowsPlugin::RegisterWithRegistrar(
 }
 
 PermissionHandlerWindowsPlugin::PermissionHandlerWindowsPlugin(){
-
   m_positionChangedRevoker = geolocator.PositionChanged(winrt::auto_revoke,
     [this](Geolocator const& geolocator, PositionChangedEventArgs e)
     {
